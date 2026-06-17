@@ -2,7 +2,7 @@
 
 Sistema de investigação digital para feira tecnológica, com foco em demonstração de banco de dados relacional (PostgreSQL 16+). Stack: React + Vite (frontend), Node.js + Express (backend), PostgreSQL (dados).
 
-Sem login, sem QR Code, sem IA, sem WebSocket, sem medalhas — apenas o fluxo de investigação, resolução do caso e ranking por apelido, como definido no escopo do projeto.
+— apenas o fluxo de investigação, resolução do caso e ranking por apelido, como definido no escopo do projeto.
 
 ## 1. Estrutura completa de pastas
 
