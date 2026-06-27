@@ -133,5 +133,3 @@ psql -U postgres -d misterio_escola -f database/seed.sql
 | GET/POST | `/api/ranking` | Consulta e atualiza o ranking |
 
 ---
-
-Projeto desenvolvido como trabalho final do curso Técnico em Desenvolvimento de Sistemas — São Paulo, 2026.
