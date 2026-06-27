@@ -1,122 +1,67 @@
 # Mistério na Escola — O Caso do Arquivo Desaparecido
 
-Sistema de investigação digital para feira tecnológica, com foco em demonstração de banco de dados relacional (PostgreSQL 16+). Stack: React + Vite (frontend), Node.js + Express (backend), PostgreSQL (dados).
+Sistema de investigação digital criado para a **Feira de Banco de Dados** da escola. O visitante assume o papel de detetive: interroga suspeitos, analisa evidências, assiste depoimentos e revisa câmeras de segurança até resolver o caso.
 
-— apenas o fluxo de investigação, resolução do caso e ranking por apelido, como definido no escopo do projeto.
+Desenvolvido em grupo com o objetivo de tornar a apresentação de banco de dados algo interativo — em vez de só mostrar tabelas e queries numa tela, o visitante *joga* e sem perceber está interagindo com um PostgreSQL real por baixo.
 
-## 1. Estrutura completa de pastas
+A feira foi um sucesso. O projeto foi muito bem recebido pela banca.
+
+---
+
+## Stack
+
+- **Frontend:** React + Vite
+- **Backend:** Node.js + Express (arquitetura em camadas: routes → controllers → services → repositories)
+- **Banco de dados:** PostgreSQL 16
+
+---
+
+## Estrutura do projeto
 
 ```
 misterio-escola/
 ├── database/
-│   ├── schema.sql        # Criação de tabelas, constraints, índices e views
-│   └── seed.sql           # Massa de dados completa do caso
+│   ├── schema.sql        # Tabelas, constraints, índices e views
+│   └── seed.sql          # Dados completos do caso
 ├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   │   └── database.js
-│   │   ├── routes/
-│   │   │   ├── suspeitos.routes.js
-│   │   │   ├── evidencias.routes.js
-│   │   │   ├── depoimentos.routes.js
-│   │   │   ├── cameras.routes.js
-│   │   │   ├── logs.routes.js
-│   │   │   ├── resolucao.routes.js
-│   │   │   └── ranking.routes.js
-│   │   ├── controllers/
-│   │   │   ├── suspeitos.controller.js
-│   │   │   ├── evidencias.controller.js
-│   │   │   ├── depoimentos.controller.js
-│   │   │   ├── cameras.controller.js
-│   │   │   ├── logs.controller.js
-│   │   │   ├── resolucao.controller.js
-│   │   │   └── ranking.controller.js
-│   │   ├── services/
-│   │   │   ├── suspeitos.service.js
-│   │   │   ├── evidencias.service.js
-│   │   │   ├── resolucao.service.js
-│   │   │   └── ranking.service.js
-│   │   ├── repositories/
-│   │   │   ├── suspeitos.repository.js
-│   │   │   ├── evidencias.repository.js
-│   │   │   ├── depoimentos.repository.js
-│   │   │   ├── cameras.repository.js
-│   │   │   ├── logs.repository.js
-│   │   │   └── ranking.repository.js
-│   │   ├── app.js
-│   │   └── server.js
-│   ├── .env.example
-│   └── package.json
+│   └── src/
+│       ├── config/
+│       ├── routes/
+│       ├── controllers/
+│       ├── services/
+│       └── repositories/
 ├── frontend/
-│   ├── src/
-│   │   ├── pages/
-│   │   │   ├── TelaInicial.jsx
-│   │   │   ├── IntroducaoCaso.jsx
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── Suspeitos.jsx
-│   │   │   ├── Evidencias.jsx
-│   │   │   ├── Depoimentos.jsx
-│   │   │   ├── Cameras.jsx
-│   │   │   ├── Logs.jsx
-│   │   │   ├── ResolverCaso.jsx
-│   │   │   ├── Resultado.jsx
-│   │   │   └── Ranking.jsx
-│   │   ├── components/
-│   │   │   ├── Header.jsx
-│   │   │   ├── TabBar.jsx
-│   │   │   ├── Badge.jsx
-│   │   │   ├── QueryInspector.jsx
-│   │   │   ├── StateMessage.jsx
-│   │   │   └── Modal.jsx
-│   │   ├── services/
-│   │   │   ├── api.js
-│   │   │   ├── suspeitos.service.js
-│   │   │   ├── evidencias.service.js
-│   │   │   ├── depoimentos.service.js
-│   │   │   ├── cameras.service.js
-│   │   │   ├── logs.service.js
-│   │   │   ├── resolucao.service.js
-│   │   │   └── ranking.service.js
-│   │   ├── styles/
-│   │   │   ├── tokens.css
-│   │   │   └── components.css
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── index.html
-│   ├── vite.config.js
-│   ├── .env.example
-│   └── package.json
+│   └── src/
+│       ├── pages/        # 11 páginas
+│       ├── components/   # Header, TabBar, Badge, Modal...
+│       └── services/     # Integração com a API
 ├── MANUAL_PGADMIN.md
 ├── MANUAL_APRESENTACAO_BANCA.md
-└── README.md (este arquivo)
+└── README.md
 ```
 
-## 2. Pré-requisitos
+---
 
-- Node.js 18 ou superior
-- PostgreSQL 16 ou superior
-- pgAdmin 4 (opcional, recomendado para visualizar/gerenciar o banco)
+## Como rodar
 
-## 3. Comandos de instalação (passo a passo)
+### Pré-requisitos
 
-### 3.1 Banco de dados
+- Node.js 18+
+- PostgreSQL 16+
 
-Crie o banco (via pgAdmin ou terminal):
+### 1. Banco de dados
 
-```bash
-psql -U postgres -c "CREATE DATABASE misterio_escola WITH ENCODING 'UTF8' TEMPLATE template0;"
-```
-
-Execute o schema e depois o seed:
+Crie o banco e execute os arquivos na ordem:
 
 ```bash
+psql -U postgres -c "CREATE DATABASE misterio_escola;"
 psql -U postgres -d misterio_escola -f database/schema.sql
 psql -U postgres -d misterio_escola -f database/seed.sql
 ```
 
-(Veja o `MANUAL_PGADMIN.md` para o passo a passo usando apenas a interface gráfica do pgAdmin 4.)
+Se preferir usar interface gráfica, tem um passo a passo no `MANUAL_PGADMIN.md`.
 
-### 3.2 Backend
+### 2. Backend
 
 ```bash
 cd backend
@@ -124,26 +69,26 @@ npm install
 cp .env.example .env
 ```
 
-Edite o `.env` com as credenciais do seu PostgreSQL local:
+Edite o `.env` com suas credenciais do PostgreSQL:
 
 ```
 PORT=3001
 PGHOST=localhost
 PGPORT=5432
 PGUSER=postgres
-PGPASSWORD=sua_senha_aqui
+PGPASSWORD=sua_senha
 PGDATABASE=misterio_escola
 ```
-
-Inicie o servidor:
 
 ```bash
 npm start
 ```
 
-O backend sobe em `http://localhost:3001`. Teste com `curl http://localhost:3001/api/health`.
+Sobe em `http://localhost:3001`. Pra confirmar que tá funcionando: `curl http://localhost:3001/api/health`
 
-### 3.3 Frontend
+> A parte que mais deu trabalho foi exatamente essa — a conexão com o banco. Variáveis de ambiente erradas, porta diferente, usuário sem permissão. Se travar aqui, confere o `.env` com calma antes de qualquer outra coisa.
+
+### 3. Frontend
 
 Em outro terminal:
 
@@ -154,27 +99,39 @@ cp .env.example .env
 npm run dev
 ```
 
-O frontend sobe em `http://localhost:5173` (padrão do Vite) e já está configurado para consumir a API em `http://localhost:3001/api` (variável `VITE_API_URL` no `.env`).
+Abre em `http://localhost:5173` e já aponta pra API em `localhost:3001` automaticamente.
 
-Acesse `http://localhost:5173` no navegador.
+---
 
-## 4. Scripts disponíveis
+## Resetar o banco entre sessões
 
-**Backend** (`backend/package.json`):
-- `npm start` — inicia o servidor com Node.js puro.
-- `npm run dev` — inicia com `node --watch` (recarrega ao salvar arquivos).
-
-**Frontend** (`frontend/package.json`):
-- `npm run dev` — ambiente de desenvolvimento (hot reload).
-- `npm run build` — gera build de produção em `frontend/dist`.
-- `npm run preview` — serve o build de produção localmente.
-
-## 5. Resetar o banco entre demonstrações
-
-Antes de cada nova rodada de testes na feira, é recomendável limpar apenas a tabela de ranking (que é alimentada pelos visitantes), preservando o caso:
+Na feira precisávamos resetar o ranking entre um visitante e outro. O comando que usamos:
 
 ```sql
 TRUNCATE TABLE ranking RESTART IDENTITY;
 ```
 
-Para resetar tudo do zero (caso + ranking), basta executar novamente `schema.sql` (que recria as tabelas) seguido de `seed.sql`.
+Pra resetar tudo do zero (caso + ranking):
+
+```bash
+psql -U postgres -d misterio_escola -f database/schema.sql
+psql -U postgres -d misterio_escola -f database/seed.sql
+```
+
+---
+
+## Rotas da API
+
+| Método | Rota | O que faz |
+|--------|------|-----------|
+| GET | `/api/suspeitos` | Lista os suspeitos |
+| GET | `/api/evidencias` | Lista as evidências |
+| GET | `/api/depoimentos` | Lista os depoimentos |
+| GET | `/api/cameras` | Retorna as gravações |
+| GET | `/api/logs` | Logs do sistema |
+| POST | `/api/resolucao` | Submete a resolução do caso |
+| GET/POST | `/api/ranking` | Consulta e atualiza o ranking |
+
+---
+
+Projeto desenvolvido como trabalho final do curso Técnico em Desenvolvimento de Sistemas — São Paulo, 2026.
